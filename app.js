@@ -1,7 +1,5 @@
-const converter = require('json-2-csv')
 const axios = require('axios')
 const fs = require('fs')
-const ObjectsToCsv = require('objects-to-csv')
 
 const API_URL = 'https://api.twitter.com/2'
 const token = process.env.TWITTER_BEARER_TOKEN
