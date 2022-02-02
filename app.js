@@ -1,5 +1,7 @@
 const converter = require('json-2-csv')
 const axios = require('axios')
+const fs = require('fs')
+const ObjectsToCsv = require('objects-to-csv')
 
 const API_URL = 'https://api.twitter.com/2'
 const token = process.env.TWITTER_BEARER_TOKEN
@@ -32,7 +34,7 @@ async function getTweets() {
     url: `/users/${userId}/tweets`,
     params: {
       max_results: 100,
-      'tweet.fields': 'public_metrics',
+      'tweet.fields': 'public_metrics,created_at',
       expansions: 'author_id',
     },
   })
@@ -45,6 +47,7 @@ async function transformTweets(username) {
     text: tweet.text,
     like_count: tweet.public_metrics.like_count,
     tweet_url: `https://twitter.com/${username}/status/${tweet.id}`,
+    created_at: tweet.created_at,
   }))
 
   transformedTweets.sort((a, b) => {
@@ -52,7 +55,13 @@ async function transformTweets(username) {
   })
 
   console.log(transformedTweets)
+  return transformedTweets
 }
 
-// getTweets()
-transformTweets(twitter_account_username)
+async function writeDataToJson() {
+  const data = await transformTweets(twitter_account_username)
+  const stringifiedData = JSON.stringify(data)
+  fs.writeFileSync('sorted-tweet.json', stringifiedData)
+}
+
+writeDataToJson()

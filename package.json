@@ -1,12 +1,11 @@
 {
-  "name": "tweets-to-csv",
+  "name": "tweets-to-json",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.25.0",
     "dotenv": "^15.0.0",
-    "json-2-csv": "^3.17.0",
     "prettier": "^2.5.1"
   },
   "scripts": {
